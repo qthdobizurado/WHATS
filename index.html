@@ -3,36 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WhatsApp Redirecionamento</title>
-    <link rel="manifest" href="data:application/json;charset=utf-8,%7B%22name%22%3A%22WhatsApp%20Redirecionamento%22%2C%22short_name%22%3A%22WhatsApp%22%2C%22start_url%22%3A%22index.html%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23f0f0f0%22%2C%22theme_color%22%3A%22%2325D366%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAEklEQVR42mP8z8AAS0BlwHk2B4AAAAAAElFTkSuQmCC%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image/png%22%7D%5D%7D">
+    <title>WhatsApp PWA</title>
+    <link rel="manifest" href="manifest.json">
     <style>
         body {
+            font-family: Arial, sans-serif;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
             height: 100vh;
             background-color: #f0f0f0;
-            font-family: Arial, sans-serif;
         }
         button {
-            padding: 15px 30px;
             margin: 10px;
+            padding: 15px 20px;
             font-size: 16px;
-            cursor: pointer;
             border: none;
-            border-radius: 5px;
-            background-color: #25D366; /* Cor do WhatsApp */
+            background-color: #25D366;
             color: white;
-        }
-        button:hover {
-            background-color: #128C7E; /* Cor do WhatsApp ao passar o mouse */
+            cursor: pointer;
+            border-radius: 5px;
         }
     </style>
 </head>
 <body>
-    <h1>Entre em Contato</h1>
-    <button onclick="window.location.href='https://wa.me/556233717332'">WhatsApp 6233717332</button>
-    <button onclick="window.location.href='https://wa.me/556233717330'">WhatsApp 6233717330</button>
+    <h1>Contato Rápido via WhatsApp</h1>
+    <button onclick="window.location.href='https://wa.me/556233717332'">Falar no WhatsApp (6233717332)</button>
+    <button onclick="window.location.href='https://wa.me/556233717330'">Falar no WhatsApp (6233717330)</button>
+    
+    <script>
+        let deferredPrompt;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            if (confirm("Deseja adicionar este site à tela inicial?")) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('Usuário aceitou instalar o PWA');
+                    } else {
+                        console.log('Usuário recusou a instalação do PWA');
+                    }
+                    deferredPrompt = null;
+                });
+            }
+        });
+    </script>
 </body>
 </html>
