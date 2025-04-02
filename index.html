@@ -35,5 +35,40 @@
     <h1>Entre em Contato</h1>
     <button onclick="window.location.href='https://wa.me/6233717332'">WhatsApp 6233717332</button>
     <button onclick="window.location.href='https://wa.me/6233717330'">WhatsApp 6233717330</button>
+
+    <script>
+        let deferredPrompt;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Impede que o navegador mostre o prompt automático
+            e.preventDefault();
+            // Armazena o evento para que você possa mostrar o prompt mais tarde
+            deferredPrompt = e;
+            // Chama a função para mostrar o botão de instalação
+            showInstallButton();
+        });
+
+        function showInstallButton() {
+            // Cria um botão para solicitar instalação
+            const installButton = document.createElement('button');
+            installButton.textContent = 'Instalar App';
+            installButton.style.marginTop = '20px';
+            document.body.appendChild(installButton);
+
+            installButton.addEventListener('click', () => {
+                // Mostra o prompt de instalação
+                deferredPrompt.prompt();
+                // Aguarda a resposta do usuário
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('Usuário aceitou a instalação');
+                    } else {
+                        console.log('Usuário rejeitou a instalação');
+                    }
+                    deferredPrompt = null; // Reseta o prompt
+                });
+            });
+        }
+    </script>
 </body>
 </html>
