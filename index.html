@@ -3,53 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WhatsApp PWA</title>
-    <link rel="manifest" href="manifest.json">
+    <title>Contato via WhatsApp</title>
+    <link rel="manifest" href="#manifest">
     <style>
         body {
-            font-family: Arial, sans-serif;
             display: flex;
             flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             height: 100vh;
             background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
         }
         button {
             margin: 10px;
-            padding: 15px 20px;
+            padding: 15px 30px;
             font-size: 16px;
-            border: none;
-            background-color: #25D366;
             color: white;
-            cursor: pointer;
+            background-color: #25D366; /* Cor do WhatsApp */
+            border: none;
             border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #128C7E; /* Cor mais escura do WhatsApp */
         }
     </style>
+    <script>
+        // Manifesto em JavaScript
+        const manifest = {
+            "name": "Contato via WhatsApp",
+            "short_name": "WhatsApp Contato",
+            "start_url": ".",
+            "display": "standalone",
+            "background_color": "#f0f0f0",
+            "theme_color": "#25D366",
+            "icons": [
+                {
+                    "src": "icon.png",
+                    "sizes": "192x192",
+                    "type": "image/png"
+                }
+            ]
+        };
+        // Cria o manifesto
+        const blob = new Blob([JSON.stringify(manifest)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        document.querySelector('link[rel="manifest"]').setAttribute('href', url);
+    </script>
 </head>
 <body>
-    <h1>Contato Rápido via WhatsApp</h1>
-    <button onclick="window.location.href='https://wa.me/556233717332'">Falar no WhatsApp (6233717332)</button>
-    <button onclick="window.location.href='https://wa.me/556233717330'">Falar no WhatsApp (6233717330)</button>
-    
-    <script>
-        let deferredPrompt;
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            if (confirm("Deseja adicionar este site à tela inicial?")) {
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') {
-                        console.log('Usuário aceitou instalar o PWA');
-                    } else {
-                        console.log('Usuário recusou a instalação do PWA');
-                    }
-                    deferredPrompt = null;
-                });
-            }
-        });
-    </script>
+    <h1>Entre em Contato</h1>
+    <button onclick="window.location.href='https://wa.me/6233717332'">WhatsApp 6233717332</button>
+    <button onclick="window.location.href='https://wa.me/6233717330'">WhatsApp 6233717330</button>
 </body>
 </html>
